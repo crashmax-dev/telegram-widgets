@@ -1,0 +1,14 @@
+{
+  "name": "@telegram-widgets/monoreposity",
+  "scripts": {
+    "dev": "turbo run dev --filter='./packages/*'",
+    "build": "turbo run build --filter='./packages/*'",
+    "format": "prettier --write '**/*.{js,ts,tsx,json}'"
+  },
+  "devDependencies": {
+    "@crashmax/prettier-config": "^3.2.1",
+    "@crashmax/tsconfig": "^2.0.1",
+    "tsup": "^6.7.0",
+    "turbo": "^1.9.8"
+  }
+}

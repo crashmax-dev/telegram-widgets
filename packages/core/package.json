@@ -1,0 +1,26 @@
+{
+  "name": "@telegram-widgets/core",
+  "version": "0.0.0",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@crashmax/tsconfig": "^2.0.1",
+    "@types/node": "^20.2.0",
+    "tsx": "^3.12.7"
+  },
+  "dependencies": {
+    "@zero-dependency/fetcher": "^1.2.2",
+    "@zero-dependency/utils": "^1.4.0"
+  }
+}
