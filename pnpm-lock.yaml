@@ -35,9 +35,15 @@ importers:
 
   examples/playground:
     dependencies:
+      '@crashmax/json-format-highlight':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@telegram-widgets/core':
         specifier: workspace:^
         version: link:../../packages/core
+      '@zero-dependency/dom':
+        specifier: ^1.6.0
+        version: 1.6.0
     devDependencies:
       typescript:
         specifier: ^5.0.2
@@ -277,6 +283,10 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
     dev: true
+
+  /@crashmax/json-format-highlight@1.1.0:
+    resolution: {integrity: sha512-t74op3IX4fFlsshLkqlb4q8nAoXtd6den/LZ+Zl06foiCaSx+1v3tGKXZFCaoY9Edpxaco9d2ddHMUV7C6LSZg==}
+    dev: false
 
   /@crashmax/prettier-config@3.2.1(@ianvs/prettier-plugin-sort-imports@3.7.1)(prettier-plugin-multiline-arrays@1.1.2)(prettier@2.8.1):
     resolution: {integrity: sha512-SGyKMp90ugeaJeyJLDFC2bwvgAN+Pcm1pMCPwIBm0xx1Pdcf0sJbg5as6kUJXkMfZzDD0DMzP5R/y1SINWn9yw==}
@@ -595,6 +605,12 @@ packages:
     resolution: {integrity: sha512-3iD2jaCCziTx04uudpJKwe39QxXgSUnpxXSvRQjRvHPxFQfmfP4NXIm/NURVeNlTCc+ru4WqjYGTmpXrW9uMlw==}
     dev: true
 
+  /@zero-dependency/dom@1.6.0:
+    resolution: {integrity: sha512-XmKa6zO5gFlOIPCOSep+KJ5WiRklOMlF6doJ3HbGpls6aZn1M7oTP5AUXwhfqBJI5KUw2UNghKY3akBxqXkXTQ==}
+    dependencies:
+      csstype: 3.1.2
+    dev: false
+
   /@zero-dependency/fetcher@1.2.2:
     resolution: {integrity: sha512-0alNCJ9wo2YP7KIaGNeDVD20PT2zDj4juNsyZ+v4TYKv4kiwlEXhRT63/z6zXN+7QzNsHmLHyQy/WSKrHpOxCA==}
     dev: false
@@ -739,6 +755,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /csstype@3.1.2:
+    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+    dev: false
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}

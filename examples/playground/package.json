@@ -13,6 +13,8 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
-    "@telegram-widgets/core": "workspace:^"
+    "@crashmax/json-format-highlight": "^1.1.0",
+    "@telegram-widgets/core": "workspace:^",
+    "@zero-dependency/dom": "^1.6.0"
   }
 }
