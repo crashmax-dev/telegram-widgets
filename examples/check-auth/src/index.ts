@@ -1,16 +1,16 @@
 import crypto from 'node:crypto'
-import { checkAuth } from '@telegram-widgets/core'
+import { checkAuthData } from '@telegram-widgets/core'
 import { entries } from '@zero-dependency/utils'
-import type { TelegramAuthData } from '@telegram-widgets/core'
+import type { AuthData } from '@telegram-widgets/core'
 
-const mockUserData = (id: number) => ({
+const mockUser = (id: number, offset: number): AuthData => ({
   id,
   first_name: 'John',
-  auth_date: Math.floor(Date.now() / 1000) - 86400,
+  auth_date: Math.floor(Date.now() / 1000) - offset,
   hash: ''
 })
 
-function generateHash(botToken: string, authData: TelegramAuthData): string {
+function generateHash(botToken: string, authData: AuthData): string {
   const values = []
 
   for (const [key, value] of entries(authData)) {
@@ -26,13 +26,53 @@ function generateHash(botToken: string, authData: TelegramAuthData): string {
   return hash
 }
 
-const user = mockUserData(1)
-const hash = generateHash('BOT_TOKEN', user)
-console.log('Hash:', hash)
+function validAuth(): void {
+  try {
+    const botToken = 'BOT_TOKEN'
+    const user = mockUser(1, 290)
+    const hash = generateHash(botToken, user)
+    const authData = { ...user, hash }
 
-try {
-  const userData = checkAuth({ ...user, hash }, 'BOT_TOKEN')
-  console.log(userData)
-} catch (err) {
-  console.log(err)
+    console.log('authData:', authData)
+    const userData = checkAuthData(botToken, authData, 300)
+    console.log('userData:', userData)
+  } catch (err) {
+    console.log((err as Error).message)
+  }
 }
+
+function outdatedAuth(): void {
+  try {
+    const botToken = 'BOT_TOKEN'
+    const user = mockUser(2, 310)
+    const hash = generateHash(botToken, user)
+    const authData = { ...user, hash }
+
+    console.log('authData:', authData)
+    const userData = checkAuthData(botToken, authData, 300)
+    console.log('userData:', userData)
+  } catch (err) {
+    console.log((err as Error).message)
+  }
+}
+
+function invalidAuth(): void {
+  try {
+    const user = mockUser(3, 300)
+    const hash = generateHash('UNKNOWN_BOT_TOKEN', user)
+    const authData = { ...user, hash }
+
+    console.log('authData:', authData)
+    const userData = checkAuthData('BOT_TOKEN', authData, 300)
+    console.log('userData:', userData)
+  } catch (err) {
+    console.log((err as Error).message)
+  }
+}
+
+console.log('=== Valid ===\n')
+validAuth()
+console.log('\n=== Outdated ===\n')
+outdatedAuth()
+console.log('\n=== Invalid ===\n')
+invalidAuth()
