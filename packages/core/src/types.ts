@@ -1,4 +1,4 @@
-export interface TelegramUserData {
+export interface User {
   id: number
   first_name: string
   last_name?: string
@@ -7,16 +7,18 @@ export interface TelegramUserData {
   auth_date: number
 }
 
-export interface TelegramAuthData extends TelegramUserData {
+export interface AuthData extends User {
   hash: string
 }
 
-export interface TelegramAuthEvent {
+export interface AuthEvent {
   event: 'auth_result'
-  result: TelegramAuthData
+  result: AuthResult
 }
 
-export interface Popup {
-  window: Window | null
-  authFinished: boolean
+export interface AuthResult {
+  html?: string
+  origin?: string
+  error?: string
+  user?: AuthData
 }

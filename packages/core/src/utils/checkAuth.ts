@@ -1,17 +1,19 @@
 import crypto from 'node:crypto'
 import { entries, omit } from '@zero-dependency/utils'
-import type { TelegramAuthData, TelegramUserData } from './types.js'
+import { SECONDS_TO_EXPIRE } from '../constants.js'
+import type { AuthData, User } from '../types.js'
 
 /**
- * Check Telegram user data
- * @param authData - Telegram user data
+ * Check Telegram auth data and return user data or throw an error
  * @param botToken - Telegram bot token
+ * @param authData - Telegram user data
+ * @param secondsToExpire - Seconds to expire "auth_date" (default: 86400)
  */
-export function checkAuth(
-  authData: TelegramAuthData,
+export function checkAuthData(
   botToken: string,
-  secondsToExpire = 86400
-): TelegramUserData {
+  authData: AuthData,
+  secondsToExpire = SECONDS_TO_EXPIRE
+): User {
   const values = []
 
   for (const [key, value] of entries(authData)) {
@@ -25,12 +27,12 @@ export function checkAuth(
   const hash = crypto.createHmac('sha256', secret).update(sorted).digest('hex')
 
   if (authData.hash !== hash) {
-    throw new Error('Auth data is not valid')
+    throw new Error('authData is invalid')
   }
 
   const unixTime = Math.floor(Date.now() / 1000)
   if (unixTime > authData.auth_date + secondsToExpire) {
-    throw new Error('Auth data is outdated')
+    throw new Error('authData is outdated')
   }
 
   return omit(authData, ['hash'])
