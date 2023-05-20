@@ -22,7 +22,7 @@ const authService = new AuthService({
   botId: '2107099955',
   origin: 'telegram-widgets.com',
   language: 'en',
-  requestAccess: false,
+  requestAccess: 'write',
   autorizationType: 'redirect',
   redirectUrl: 'https://telegram-widgets.com/api/login',
   onError(error) {

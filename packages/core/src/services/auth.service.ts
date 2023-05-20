@@ -3,6 +3,7 @@ import { WIDGET_AUTH_URL } from '../constants.js'
 import { callbackUrl } from '../utils/callbackUrl.js'
 import type { AuthEvent, AuthResult, User } from '../types.js'
 
+type RequestAccess = 'write'
 type AutorizationType = 'callback' | 'redirect'
 
 interface AuthServiceOptions {
@@ -12,7 +13,7 @@ interface AuthServiceOptions {
   autorizationType: AutorizationType
   redirectUrl?: string
   language?: string
-  requestAccess?: boolean
+  requestAccess?: RequestAccess
   origin?: string
 }
 
@@ -20,8 +21,11 @@ export class AuthService {
   private popup: Window | null
   private options: AuthServiceOptions
 
-  constructor(options: AuthServiceOptions) {
-    this.options = options
+  constructor({
+    requestAccess = 'write',
+    ...options
+  }: AuthServiceOptions) {
+    this.options = { ...options, requestAccess }
   }
 
   auth(): void {
@@ -47,7 +51,7 @@ export class AuthService {
       this.options.language ?? navigator.language
     )
     if (this.options.requestAccess) {
-      popupUrl.searchParams.set('request_access', 'true')
+      popupUrl.searchParams.set('request_access', this.options.requestAccess)
     }
 
     this.popup = window.open(
