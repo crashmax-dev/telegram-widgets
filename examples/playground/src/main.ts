@@ -28,14 +28,18 @@ const authService = new AuthService({
   onError(error) {
     console.error(error)
   },
-  onAuth(user) {
-    loginData.innerHTML = formatHighlight(user, {
-      tagPre: true,
-      wordWrap: false,
-      colors: {
-        falseColor: '#f44747'
-      }
-    })
+  onAuth(data) {
+    if (data instanceof URL) {
+      console.log(data)
+    } else {
+      loginData.innerHTML = formatHighlight(data, {
+        tagPre: true,
+        wordWrap: false,
+        colors: {
+          falseColor: '#f44747'
+        }
+      })
+    }
   }
 })
 

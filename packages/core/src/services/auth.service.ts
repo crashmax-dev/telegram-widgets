@@ -1,12 +1,13 @@
 import { fetcher, FetcherError } from '@zero-dependency/fetcher'
 import { WIDGET_AUTH_URL } from '../constants.js'
+import { callbackUrl } from '../utils/callbackUrl.js'
 import type { AuthEvent, AuthResult, User } from '../types.js'
 
 type AutorizationType = 'callback' | 'redirect'
 
 interface AuthServiceOptions {
   botId: string
-  onAuth: (data: User) => void
+  onAuth: (data: User | URL) => void
   onError: (data: AuthResult) => void
   autorizationType: AutorizationType
   redirectUrl?: string
@@ -72,16 +73,25 @@ export class AuthService {
 
     const onAuthDone = (authResult?: AuthResult) => {
       this.popup = null
+      window.removeEventListener('message', onMessage)
 
       if (authResult?.error) {
         this.options.onError(authResult)
       }
 
-      if (authResult?.user) {
-        this.options.onAuth(authResult.user)
+      if (!authResult?.user) return
+
+      if (
+        this.options.redirectUrl &&
+        this.options.autorizationType === 'redirect'
+      ) {
+        const url = callbackUrl(this.options.redirectUrl, authResult.user)
+        this.options.onAuth(url)
       }
 
-      window.removeEventListener('message', onMessage)
+      if (this.options.autorizationType === 'callback') {
+        this.options.onAuth(authResult.user)
+      }
     }
 
     const checkClose = () => {
