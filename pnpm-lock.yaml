@@ -10,47 +10,24 @@ importers:
       '@crashmax/tsconfig':
         specifier: ^2.0.1
         version: 2.0.1
-      tsup:
-        specifier: ^6.7.0
-        version: 6.7.0(typescript@5.0.4)
-      turbo:
-        specifier: ^1.9.8
-        version: 1.9.8
-
-  examples/check-auth:
-    dependencies:
-      '@telegram-widgets/core':
-        specifier: workspace:^
-        version: link:../../packages/core
-      '@zero-dependency/utils':
-        specifier: ^1.4.0
-        version: 1.4.0
-    devDependencies:
       '@types/node':
         specifier: ^20.2.0
         version: 20.2.0
+      tsup:
+        specifier: ^6.7.0
+        version: 6.7.0(typescript@5.0.4)
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
-
-  examples/playground:
-    dependencies:
-      '@crashmax/json-format-highlight':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@telegram-widgets/core':
-        specifier: workspace:^
-        version: link:../../packages/core
-      '@zero-dependency/dom':
-        specifier: ^1.6.0
-        version: 1.6.0
-    devDependencies:
+      turbo:
+        specifier: ^1.9.8
+        version: 1.9.8
       typescript:
-        specifier: ^5.0.2
+        specifier: ^5.0.4
         version: 5.0.4
       vite:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^4.3.8
+        version: 4.3.8(@types/node@20.2.0)
 
   packages/core:
     dependencies:
@@ -60,16 +37,21 @@ importers:
       '@zero-dependency/utils':
         specifier: ^1.4.0
         version: 1.4.0
-    devDependencies:
-      '@crashmax/tsconfig':
-        specifier: ^2.0.1
-        version: 2.0.1
-      '@types/node':
-        specifier: ^20.2.0
-        version: 20.2.0
-      tsx:
-        specifier: ^3.12.7
-        version: 3.12.7
+
+  playground:
+    dependencies:
+      '@crashmax/json-format-highlight':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@telegram-widgets/core':
+        specifier: workspace:^
+        version: link:../packages/core
+      '@zero-dependency/dom':
+        specifier: ^1.6.0
+        version: 1.6.0
+      '@zero-dependency/utils':
+        specifier: ^1.4.0
+        version: 1.4.0
 
 packages:
 
@@ -1477,8 +1459,8 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite@4.3.2:
-    resolution: {integrity: sha512-9R53Mf+TBoXCYejcL+qFbZde+eZveQLDYd9XgULILLC1a5ZwPaqgmdVpL8/uvw2BM/1TzetWjglwm+3RO+xTyw==}
+  /vite@4.3.8(@types/node@20.2.0):
+    resolution: {integrity: sha512-uYB8PwN7hbMrf4j1xzGDk/lqjsZvCDbt/JC5dyfxc19Pg8kRm14LinK/uq+HSLNswZEoKmweGdtpbnxRtrAXiQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -1502,6 +1484,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.2.0
       esbuild: 0.17.19
       postcss: 8.4.23
       rollup: 3.22.0

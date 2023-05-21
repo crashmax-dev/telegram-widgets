@@ -1,14 +1,25 @@
 {
   "name": "@telegram-widgets/monoreposity",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*",
+    "playground"
+  ],
   "scripts": {
     "dev": "turbo run dev --filter='./packages/*'",
     "build": "turbo run build --filter='./packages/*'",
+    "playground": "turbo run dev --filter='./playground'",
     "format": "prettier --write '**/*.{js,ts,tsx,json}'"
   },
   "devDependencies": {
     "@crashmax/prettier-config": "^3.2.1",
     "@crashmax/tsconfig": "^2.0.1",
+    "@types/node": "^20.2.0",
     "tsup": "^6.7.0",
-    "turbo": "^1.9.8"
+    "tsx": "^3.12.7",
+    "turbo": "^1.9.8",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.8"
   }
 }

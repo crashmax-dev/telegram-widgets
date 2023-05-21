@@ -73,7 +73,7 @@ function invalidAuth(): void {
 
 console.log('=== Valid ===\n')
 validAuth()
-// console.log('\n=== Outdated ===\n')
-// outdatedAuth()
-// console.log('\n=== Invalid ===\n')
-// invalidAuth()
+console.log('\n=== Outdated ===\n')
+outdatedAuth()
+console.log('\n=== Invalid ===\n')
+invalidAuth()
