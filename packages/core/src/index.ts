@@ -1,6 +1,3 @@
-export * from './services/auth.service.js'
-
-export * from './utils/callbackUrl.js'
-export * from './utils/checkAuth.js'
-
 export * from './types.js'
+export * from './client.js'
+export * from './server.js'

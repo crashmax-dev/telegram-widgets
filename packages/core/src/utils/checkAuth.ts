@@ -3,12 +3,6 @@ import { entries, omit } from '@zero-dependency/utils'
 import { SECONDS_TO_EXPIRE } from '../constants.js'
 import type { AuthData, User } from '../types.js'
 
-/**
- * Check Telegram auth data and return user data or throw an error
- * @param botToken - Telegram bot token
- * @param authData - Telegram user data
- * @param secondsToExpire - Seconds to expire "auth_date" (default: 86400)
- */
 export function checkAuthData(
   botToken: string,
   authData: AuthData,
