@@ -1,10 +1,9 @@
-# micro /etc/caddy/Caddyfile or sudo caddy run ./Caddyfile
-
-telegram-widgets.com {
-        reverse_proxy http://localhost:3000
-        tls internal
-}
-
 # micro /etc/hosts -> 127.0.0.1 telegram-widgets.com
+# micro /etc/caddy/Caddyfile or sudo caddy run ./Caddyfile
 # systemctl restart caddy.service
 # systemctl stop caddy.service
+
+telegram-widgets.com {
+        reverse_proxy http://localhost:3333
+        tls internal
+}

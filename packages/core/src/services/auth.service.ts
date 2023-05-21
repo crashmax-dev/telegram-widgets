@@ -21,10 +21,7 @@ export class AuthService {
   private popup: Window | null
   private options: AuthServiceOptions
 
-  constructor({
-    requestAccess = 'write',
-    ...options
-  }: AuthServiceOptions) {
+  constructor({ requestAccess = 'write', ...options }: AuthServiceOptions) {
     this.options = { ...options, requestAccess }
   }
 

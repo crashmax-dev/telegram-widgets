@@ -20,6 +20,7 @@ function generateHash(botToken: string, authData: AuthData): string {
   }
 
   const secret = crypto.createHash('sha256').update(botToken).digest()
+  console.log('secret:', secret.toString('hex'))
   const sorted = values.sort().join('\n')
   const hash = crypto.createHmac('sha256', secret).update(sorted).digest('hex')
 
@@ -72,7 +73,7 @@ function invalidAuth(): void {
 
 console.log('=== Valid ===\n')
 validAuth()
-console.log('\n=== Outdated ===\n')
-outdatedAuth()
-console.log('\n=== Invalid ===\n')
-invalidAuth()
+// console.log('\n=== Outdated ===\n')
+// outdatedAuth()
+// console.log('\n=== Invalid ===\n')
+// invalidAuth()
