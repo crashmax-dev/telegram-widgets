@@ -25,7 +25,7 @@ export function checkAuthData(
   }
 
   const unixTime = Math.floor(Date.now() / 1000)
-  if (unixTime > authData.auth_date + secondsToExpire) {
+  if (unixTime - authData.auth_date > secondsToExpire) {
     throw new Error('authData is outdated')
   }
 
