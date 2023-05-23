@@ -6,24 +6,19 @@
     "dist"
   ],
   "exports": {
-    ".": "./dist/index.js",
-    "./client": "./dist/client.js",
-    "./server": "./dist/server.js"
+    "./login-widget": "./dist/login-widget/index.js"
   },
   "types": "./dist",
   "typesVersions": {
     "*": {
-      "client": [
-        "dist/client.d.ts"
-      ],
-      "server": [
-        "dist/server.d.ts"
+      "login-widget": [
+        "dist/login-widget/index.d.ts"
       ]
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "tsc-watch",
+    "build": "tsc"
   },
   "dependencies": {
     "@zero-dependency/fetcher": "^1.2.2",
