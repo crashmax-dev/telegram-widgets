@@ -3,3 +3,9 @@ pre {
   font-size: 16px;
   border-radius: 16px;
 }
+
+.container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}

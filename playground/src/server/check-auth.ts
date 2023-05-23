@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
-import { checkAuthData } from '@telegram-widgets/core'
+import { AuthValidate } from '@telegram-widgets/core/login-widget'
 import { entries } from '@zero-dependency/utils'
-import type { AuthData } from '@telegram-widgets/core'
+import type { AuthData } from '@telegram-widgets/core/login-widget'
 
 const mockUser = (id: number, offset: number): AuthData => ({
   id,
@@ -35,7 +35,10 @@ function validAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = checkAuthData(botToken, authData, 300)
+    const userData = new AuthValidate({
+      botToken,
+      secondsToExpire: 300
+    }).validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
@@ -50,7 +53,10 @@ function outdatedAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = checkAuthData(botToken, authData, 300)
+    const userData = new AuthValidate({
+      botToken,
+      secondsToExpire: 300
+    }).validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
@@ -64,7 +70,10 @@ function invalidAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = checkAuthData('BOT_TOKEN', authData, 300)
+    const userData = new AuthValidate({
+      botToken: 'BOT_TOKEN',
+      secondsToExpire: 300
+    }).validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
