@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@crashmax/json-format-highlight": "^1.1.0",
-    "@telegram-widgets/core": "workspace:^",
+    "@telegram-widgets/login": "workspace:^",
     "@zero-dependency/dom": "^1.6.0",
     "@zero-dependency/utils": "^1.4.0"
   }

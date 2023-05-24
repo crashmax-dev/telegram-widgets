@@ -1,5 +1,5 @@
 import formatHighlight from '@crashmax/json-format-highlight'
-import { AuthWidget } from '@telegram-widgets/core/login-widget'
+import { AuthWidget } from '@telegram-widgets/login'
 import { el } from '@zero-dependency/dom'
 import './style.css'
 
