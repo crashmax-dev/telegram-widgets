@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
-import { AuthValidate } from '@telegram-widgets/core/login-widget'
+import { AuthValidate } from '@telegram-widgets/login'
 import { entries } from '@zero-dependency/utils'
-import type { AuthData } from '@telegram-widgets/core/login-widget'
+import type { AuthData } from '@telegram-widgets/login'
 
 const mockUser = (id: number, offset: number): AuthData => ({
   id,
