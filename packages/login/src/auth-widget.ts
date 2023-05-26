@@ -10,7 +10,7 @@ export class AuthWidget {
     this.#options = { ...options, requestAccess }
   }
 
-  auth(): void {
+  auth(onComplete?: () => void): void {
     if (this.#popup) {
       this.#popup.focus()
       return
@@ -56,6 +56,10 @@ export class AuthWidget {
     }
 
     const onAuthDone = (authResult?: AuthResult) => {
+      if (onComplete) {
+        onComplete()
+      }
+
       this.#popup = null
       window.removeEventListener('message', onMessage)
 

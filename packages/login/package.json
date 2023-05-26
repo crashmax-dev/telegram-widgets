@@ -3,7 +3,21 @@
   "version": "0.0.0",
   "type": "module",
   "types": "./dist/index.d.ts",
-  "module": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./auth-validate": "./dist/auth-validate.js",
+    "./auth-widget": "./dist/auth-widget.js"
+  },
+  "typesVersions": {
+    "*": {
+      "auth-validate": [
+        "./dist/auth-validate.d.ts"
+      ],
+      "auth-widget": [
+        "./dist/auth-widget.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
