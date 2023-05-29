@@ -8,7 +8,7 @@ export interface PageProps {
   component: JSX.Element
 }
 
-type Pages = 'notFound' | 'home' | 'callback' | 'redirect'
+export type Pages = 'notFound' | 'home' | 'callback' | 'redirect'
 
 export const pages: Record<Pages, PageProps> = {
   notFound: {

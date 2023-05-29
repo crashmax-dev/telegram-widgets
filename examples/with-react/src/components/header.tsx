@@ -1,19 +1,23 @@
 import { getPagePath } from '@nanostores/router'
+import { Pages } from '../pages/index.jsx'
 import { router } from '../router'
 
 export function Header() {
   return (
     <header>
       <ul>
-        <li>
-          <a href={getPagePath(router, 'home')}>home</a>
-        </li>
-        <li>
-          <a href={getPagePath(router, 'callback')}>callback</a>
-        </li>
-        <li>
-          <a href={getPagePath(router, 'redirect')}>redirect</a>
-        </li>
+        {router.routes.map(([pathname], key) => (
+          <li key={key}>
+            <a
+              href={getPagePath(
+                router,
+                pathname as unknown as Exclude<Pages, 'notFound'>
+              )}
+            >
+              {pathname}
+            </a>
+          </li>
+        ))}
       </ul>
     </header>
   )
