@@ -2,11 +2,22 @@
   "name": "@telegram-widgets/react-login",
   "version": "0.0.0",
   "types": "./dist/index.d.ts",
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
   "exports": {
-    "import": "./dist/index.es.js",
-    "require": "./dist/index.umd.js"
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./middleware": {
+      "import": "./dist/middleware.es.js",
+      "require": "./dist/middleware.cjs.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "middleware": [
+        "./dist/middleware.d.ts"
+      ]
+    }
   },
   "files": [
     "dist"
@@ -17,6 +28,7 @@
   },
   "dependencies": {
     "@telegram-widgets/login": "workspace:^",
+    "next": "^13.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -26,7 +38,13 @@
     "@vitejs/plugin-react": "^4.0.0"
   },
   "peerDependencies": {
+    "next": ">=13.1.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   }
 }

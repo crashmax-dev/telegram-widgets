@@ -27,7 +27,7 @@ function generateHash(botToken: string, authData: AuthData): string {
   return hash
 }
 
-function validAuth(): void {
+async function validAuth(): Promise<void> {
   try {
     const botToken = 'BOT_TOKEN'
     const user = mockUser(1, 290)
@@ -35,17 +35,18 @@ function validAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken,
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
   }
 }
 
-function outdatedAuth(): void {
+async function outdatedAuth(): Promise<void> {
   try {
     const botToken = 'BOT_TOKEN'
     const user = mockUser(2, 310)
@@ -53,27 +54,29 @@ function outdatedAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken,
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
   }
 }
 
-function invalidAuth(): void {
+async function invalidAuth(): Promise<void> {
   try {
     const user = mockUser(3, 300)
     const hash = generateHash('UNKNOWN_BOT_TOKEN', user)
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken: 'BOT_TOKEN',
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)

@@ -15,7 +15,7 @@
   "devDependencies": {
     "@crashmax/prettier-config": "^3.2.1",
     "@crashmax/tsconfig": "^2.0.1",
-    "@types/node": "^20.2.4",
+    "@types/node": "^18.16.16",
     "tsc-watch": "^6.0.4",
     "tsup": "^6.7.0",
     "tsx": "^3.12.7",

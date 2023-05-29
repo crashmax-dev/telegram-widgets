@@ -10,17 +10,21 @@ export default defineConfig({
     sourcemap: true,
     target: 'esnext',
     lib: {
-      entry: resolve(__dirname, 'src/index.tsx'),
+      entry: [
+        resolve(__dirname, 'src/index.tsx'),
+        resolve(__dirname, 'src/middleware.ts')
+      ],
       name: 'TelegramLoginWidget',
-      formats: ['es', 'umd'],
-      fileName: (format) => `index.${format}.js`
+      formats: ['es', 'cjs'],
+      fileName: (format, name) => `${name}.${format}.js`
     },
     rollupOptions: {
-      external: ['react'],
+      external: ['react', 'next'],
       output: {
         exports: 'named',
         globals: {
-          react: 'React'
+          react: 'React',
+          next: 'next'
         }
       }
     }
