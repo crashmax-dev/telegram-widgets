@@ -6,7 +6,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./auth-validate": "./dist/auth-validate.js",
-    "./auth-widget": "./dist/auth-widget.js"
+    "./auth-widget": "./dist/auth-widget.js",
+    "./auth-crypto": "./dist/auth-crypto.js"
   },
   "typesVersions": {
     "*": {
@@ -15,6 +16,9 @@
       ],
       "auth-widget": [
         "./dist/auth-widget.d.ts"
+      ],
+      "auth-crypto": [
+        "./dist/auth-crypto.d.ts"
       ]
     }
   },

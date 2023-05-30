@@ -1,13 +1,12 @@
 import { SECONDS_TO_EXPIRE } from './constants.js'
 import { omit } from './utils.js'
 import type { AuthValidateOptions, User } from './types.js'
-import type { webcrypto } from 'node:crypto'
 
 export class AuthValidate {
   #botToken: string
   #secondsToExpire: number
-  #crypto: Crypto | webcrypto.Crypto
-  #secretHash: ArrayBuffer | null = null
+  #encoder: TextEncoder
+  #crypto: Crypto
 
   constructor({
     botToken,
@@ -15,25 +14,27 @@ export class AuthValidate {
   }: AuthValidateOptions) {
     this.#botToken = botToken
     this.#secondsToExpire = secondsToExpire
+    this.#encoder = new TextEncoder()
 
     if (globalThis.crypto) {
       this.#crypto = globalThis.crypto
     } else {
-      import('node:crypto').then((module) => (this.#crypto = module.webcrypto))
+      // TODO:
+      // import('node:crypto').then(
+      //   (module) => (this.#crypto = module.webcrypto as Crypto)
+      // )
     }
   }
 
   async #generateHash(input: string): Promise<string> {
-    if (!this.#secretHash) {
-      this.#secretHash = await this.#crypto.subtle.digest(
-        'SHA-256',
-        new TextEncoder().encode(this.#botToken)
-      )
-    }
+    const secretHash = await this.#crypto.subtle.digest(
+      'SHA-256',
+      this.#encoder.encode(this.#botToken)
+    )
 
     const key = await crypto.subtle.importKey(
       'raw',
-      this.#secretHash,
+      secretHash,
       { name: 'HMAC', hash: 'SHA-256' },
       false,
       ['sign']
@@ -42,7 +43,7 @@ export class AuthValidate {
     const hashBuffer = await crypto.subtle.sign(
       'HMAC',
       key,
-      new TextEncoder().encode(input)
+      this.#encoder.encode(input)
     )
 
     const hash = Array.from(new Uint8Array(hashBuffer))

@@ -37,6 +37,9 @@ importers:
 
   examples/with-next:
     dependencies:
+      '@telegram-widgets/login':
+        specifier: workspace:^
+        version: link:../../packages/login
       '@telegram-widgets/react-login':
         specifier: workspace:^
         version: link:../../packages/react-login

@@ -17,8 +17,8 @@ function base64ToBuffer(base64: string): Uint8Array {
   return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0))
 }
 
-function getPasswordKey(password: string): Promise<webcrypto.CryptoKey> {
-  return webcrypto.subtle.importKey(
+async function getPasswordKey(password: string): Promise<webcrypto.CryptoKey> {
+  return await webcrypto.subtle.importKey(
     'raw',
     encoder.encode(password),
     'PBKDF2',
@@ -27,12 +27,12 @@ function getPasswordKey(password: string): Promise<webcrypto.CryptoKey> {
   )
 }
 
-function deriveKey(
+async function deriveKey(
   passwordKey: CryptoKey,
   salt: BufferSource,
   keyUsage: ReadonlyArray<KeyUsage>
 ): Promise<webcrypto.CryptoKey> {
-  return webcrypto.subtle.deriveKey(
+  return await webcrypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
       salt: salt,

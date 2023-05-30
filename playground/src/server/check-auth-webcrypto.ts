@@ -1,5 +1,5 @@
 import { entries } from '@zero-dependency/utils'
-import type { AuthData } from '@telegram-widgets/login'
+import type { User } from '@telegram-widgets/login'
 
 const botToken = 'BOT_TOKEN'
 
@@ -33,14 +33,14 @@ async function hmacSha256(
   return signatureBuffer
 }
 
-const mockUser = (id: number, offset: number): AuthData => ({
+const mockUser = (id: number, offset: number): User => ({
   id,
   first_name: 'John',
   auth_date: Math.floor(Date.now() / 1000) - offset,
   hash: ''
 })
 
-async function checkUser(authData: AuthData): Promise<AuthData> {
+async function checkUser(authData: User): Promise<User> {
   const values = []
 
   for (const [key, value] of entries(authData)) {
@@ -65,7 +65,7 @@ async function checkUser(authData: AuthData): Promise<AuthData> {
   return authData
 }
 
-async function generateHash(authData: AuthData): Promise<AuthData> {
+async function generateHash(authData: User): Promise<User> {
   const values = []
 
   for (const [key, value] of entries(authData)) {

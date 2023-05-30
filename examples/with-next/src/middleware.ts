@@ -1,19 +1,21 @@
 import { NextResponse } from 'next/server'
-import { checkCookie } from '@/libs/telegram'
+import { authValidate } from '@/libs/telegram'
 import type { NextRequest } from 'next/server'
 
 export default async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-
-  if (!pathname.startsWith('/user')) {
+  if (!request.nextUrl.pathname.startsWith('/user')) {
     return NextResponse.next()
   }
 
   try {
-    const user = await checkCookie(request)
+    const session = request.cookies.get('user')
+    console.log(session)
+    const user = await authValidate.getSession(request, { name: 'user' })
+    console.log('session', user)
     return NextResponse.next()
   } catch (err) {
-    request.cookies.delete('user')
-    return NextResponse.redirect(new URL('/login', request.url))
+    const response = NextResponse.redirect(new URL('/login', request.url))
+    response.cookies.delete('user')
+    return response
   }
 }

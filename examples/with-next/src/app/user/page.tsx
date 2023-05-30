@@ -1,15 +1,20 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { authCrypto } from '@/libs/telegram'
 import type { User } from '@telegram-widgets/react-login'
 
 async function getUser(): Promise<User> {
-  const cookieValue = cookies().get('user')
-  if (!cookieValue) {
+  const requestCookie = cookies().get('user')
+  if (!requestCookie) {
     redirect('/')
   }
 
-  const user = JSON.parse(atob(cookieValue.value))
-  return user
+  const user = await authCrypto.decryptData(requestCookie.value)
+  if (!user) {
+    redirect('/')
+  }
+
+  return JSON.parse(user)
 }
 
 export default async function UserPage() {

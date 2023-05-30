@@ -1,16 +1,16 @@
 import crypto from 'node:crypto'
 import { AuthValidate } from '@telegram-widgets/login'
 import { entries } from '@zero-dependency/utils'
-import type { AuthData } from '@telegram-widgets/login'
+import type { User } from '@telegram-widgets/login'
 
-const mockUser = (id: number, offset: number): AuthData => ({
+const mockUser = (id: number, offset: number): User => ({
   id,
   first_name: 'John',
   auth_date: Math.floor(Date.now() / 1000) - offset,
   hash: ''
 })
 
-function generateHash(botToken: string, authData: AuthData): string {
+function generateHash(botToken: string, authData: User): string {
   const values = []
 
   for (const [key, value] of entries(authData)) {
