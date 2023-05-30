@@ -1,16 +1,16 @@
 import crypto from 'node:crypto'
 import { AuthValidate } from '@telegram-widgets/login'
 import { entries } from '@zero-dependency/utils'
-import type { AuthData } from '@telegram-widgets/login'
+import type { User } from '@telegram-widgets/login'
 
-const mockUser = (id: number, offset: number): AuthData => ({
+const mockUser = (id: number, offset: number): User => ({
   id,
   first_name: 'John',
   auth_date: Math.floor(Date.now() / 1000) - offset,
   hash: ''
 })
 
-function generateHash(botToken: string, authData: AuthData): string {
+function generateHash(botToken: string, authData: User): string {
   const values = []
 
   for (const [key, value] of entries(authData)) {
@@ -27,7 +27,7 @@ function generateHash(botToken: string, authData: AuthData): string {
   return hash
 }
 
-function validAuth(): void {
+async function validAuth(): Promise<void> {
   try {
     const botToken = 'BOT_TOKEN'
     const user = mockUser(1, 290)
@@ -35,17 +35,18 @@ function validAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken,
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
   }
 }
 
-function outdatedAuth(): void {
+async function outdatedAuth(): Promise<void> {
   try {
     const botToken = 'BOT_TOKEN'
     const user = mockUser(2, 310)
@@ -53,27 +54,29 @@ function outdatedAuth(): void {
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken,
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)
   }
 }
 
-function invalidAuth(): void {
+async function invalidAuth(): Promise<void> {
   try {
     const user = mockUser(3, 300)
     const hash = generateHash('UNKNOWN_BOT_TOKEN', user)
     const authData = { ...user, hash }
 
     console.log('authData:', authData)
-    const userData = new AuthValidate({
+    const auth = new AuthValidate({
       botToken: 'BOT_TOKEN',
       secondsToExpire: 300
-    }).validate(authData)
+    })
+    const userData = await auth.validate(authData)
     console.log('userData:', userData)
   } catch (err) {
     console.log((err as Error).message)

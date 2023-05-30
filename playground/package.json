@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "check-auth": "tsx src/server/check-auth.ts"
+    "check-auth": "tsx src/server/check-auth.ts",
+    "check-auth:webcrypto": "tsx src/server/check-auth-webcrypto.ts",
+    "encrypt-decrypt": "tsx src/server/encrypt-decrypt.ts"
   },
   "dependencies": {
     "@crashmax/json-format-highlight": "^1.1.0",

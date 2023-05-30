@@ -1,32 +1,66 @@
-import crypto from 'node:crypto'
 import { SECONDS_TO_EXPIRE } from './constants.js'
 import { omit } from './utils.js'
-import type { AuthData, AuthValidateOptions, User } from './types.js'
+import type { AuthValidateOptions, User } from './types.js'
 
 export class AuthValidate {
-  #secret: Buffer
+  #botToken: string
   #secondsToExpire: number
+  #encoder: TextEncoder
+  #crypto: Crypto
 
   constructor({
     botToken,
     secondsToExpire = SECONDS_TO_EXPIRE
   }: AuthValidateOptions) {
-    this.#secret = crypto.createHash('sha256').update(botToken).digest()
+    this.#botToken = botToken
     this.#secondsToExpire = secondsToExpire
+    this.#encoder = new TextEncoder()
+
+    if (globalThis.crypto) {
+      this.#crypto = globalThis.crypto
+    } else {
+      // TODO:
+      // import('node:crypto').then(
+      //   (module) => (this.#crypto = module.webcrypto as Crypto)
+      // )
+    }
   }
 
-  validate(authData: AuthData): User {
-    const user: User = omit(authData, ['hash'])
+  async #generateHash(input: string): Promise<string> {
+    const secretHash = await this.#crypto.subtle.digest(
+      'SHA-256',
+      this.#encoder.encode(this.#botToken)
+    )
+
+    const key = await crypto.subtle.importKey(
+      'raw',
+      secretHash,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    )
+
+    const hashBuffer = await crypto.subtle.sign(
+      'HMAC',
+      key,
+      this.#encoder.encode(input)
+    )
+
+    const hash = Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
+
+    return hash
+  }
+
+  async validate(authData: User): Promise<User> {
+    const user = omit(authData, ['hash'])
     const data = Object.entries(user)
       .map(([key, value]) => `${key}=${value}`)
       .sort()
       .join('\n')
 
-    const hash = crypto
-      .createHmac('sha256', this.#secret)
-      .update(data)
-      .digest('hex')
-
+    const hash = await this.#generateHash(data)
     if (authData.hash !== hash) {
       throw new Error('Auth data is invalid')
     }
@@ -36,6 +70,6 @@ export class AuthValidate {
       throw new Error('Auth data is outdated')
     }
 
-    return user
+    return authData
   }
 }
