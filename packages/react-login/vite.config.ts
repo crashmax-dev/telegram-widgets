@@ -19,12 +19,13 @@ export default defineConfig({
       fileName: (format, name) => `${name}.${format}.js`
     },
     rollupOptions: {
-      external: ['react', 'next'],
+      external: ['react', 'next', 'node:crypto'],
       output: {
         exports: 'named',
         globals: {
           react: 'React',
-          next: 'next'
+          next: 'next',
+          crypto: 'crypto'
         }
       }
     }
