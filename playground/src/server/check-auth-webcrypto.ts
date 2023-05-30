@@ -3,12 +3,12 @@ import type { AuthData } from '@telegram-widgets/login'
 
 const botToken = 'BOT_TOKEN'
 
-async function getCrypto() {
-  if (!globalThis.crypto) {
-    return (await import('node:crypto')).webcrypto as Crypto
+async function getCrypto(): Promise<Crypto> {
+  if (globalThis.crypto) {
+    return globalThis.crypto
   }
 
-  return crypto
+  return (await import('node:crypto')).webcrypto as Crypto
 }
 
 async function sha256(input: string): Promise<ArrayBuffer> {

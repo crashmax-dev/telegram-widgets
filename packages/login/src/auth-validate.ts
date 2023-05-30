@@ -1,7 +1,7 @@
-import { webcrypto } from 'node:crypto'
 import { SECONDS_TO_EXPIRE } from './constants.js'
 import { omit } from './utils.js'
-import type { AuthData, AuthValidateOptions, User } from './types.js'
+import type { AuthValidateOptions, User } from './types.js'
+import type { webcrypto } from 'node:crypto'
 
 export class AuthValidate {
   #botToken: string
@@ -39,8 +39,12 @@ export class AuthValidate {
       ['sign']
     )
 
-    const msgUint8 = new TextEncoder().encode(input)
-    const hashBuffer = await crypto.subtle.sign('HMAC', key, msgUint8)
+    const hashBuffer = await crypto.subtle.sign(
+      'HMAC',
+      key,
+      new TextEncoder().encode(input)
+    )
+
     const hash = Array.from(new Uint8Array(hashBuffer))
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('')
@@ -48,8 +52,8 @@ export class AuthValidate {
     return hash
   }
 
-  async validate(authData: AuthData): Promise<User> {
-    const user: User = omit(authData, ['hash'])
+  async validate(authData: User): Promise<User> {
+    const user = omit(authData, ['hash'])
     const data = Object.entries(user)
       .map(([key, value]) => `${key}=${value}`)
       .sort()

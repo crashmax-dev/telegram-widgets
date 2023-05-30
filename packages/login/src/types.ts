@@ -5,9 +5,6 @@ export interface User {
   username?: string
   photo_url?: string
   auth_date: number
-}
-
-export interface AuthData extends User {
   hash: string
 }
 
@@ -20,7 +17,7 @@ export interface AuthResult {
   html?: string
   origin?: string
   error?: string
-  user?: AuthData
+  user?: User
 }
 
 export interface AuthValidateOptions {

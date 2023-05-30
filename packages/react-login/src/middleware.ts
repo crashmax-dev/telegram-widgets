@@ -1,10 +1,15 @@
 import { AuthValidate } from '@telegram-widgets/login/auth-validate'
-import type {
-  AuthData,
-  AuthValidateOptions,
-  User
-} from '@telegram-widgets/login'
-import type { NextRequest } from 'next/server'
+import type { AuthValidateOptions, User } from '@telegram-widgets/login'
+import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import type { NextRequest, NextResponse } from 'next/server'
+
+interface Cookie {
+  cookieName: string
+  secret: string
+  cookieOptions: CookieOptions
+}
+
+type CookieOptions = Omit<Partial<ResponseCookie>, 'name' | 'value'>
 
 export class TelegramAuthMiddleware {
   private authValidate: AuthValidate
@@ -13,14 +18,9 @@ export class TelegramAuthMiddleware {
     this.authValidate = new AuthValidate(options)
   }
 
-  async use(request: NextRequest): Promise<User> {
-    const authData: AuthData = await request.json()
-    return await this.authValidate.validate(authData)
-  }
-
-  async withCookie(request: NextRequest, cookieName: string): Promise<User> {
-    const cookieValue = request.cookies.get(cookieName)
-    if (!cookieValue) throw new Error(`Cookie ${cookieName} not found`)
-    return await this.authValidate.validate(JSON.parse(atob(cookieValue.value)))
-  }
+  async getSession(
+    request: NextRequest,
+    response: NextResponse,
+    cookie: Cookie
+  ) {}
 }
